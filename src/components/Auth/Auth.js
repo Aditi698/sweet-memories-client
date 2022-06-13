@@ -7,7 +7,6 @@ import {
   Grid,
   Typography,
   Container,
-  TextField,
 } from "@material-ui/core";
 import LockOpenOutlinedIcon from "@material-ui/icons/LockOpenOutlined";
 import { GoogleLogin } from "react-google-login";
@@ -54,7 +53,7 @@ function Auth(props) {
     setShowPassword(false);
   };
 
-  const googleSuccess = (response) => {
+  const googleSuccess = async (response) => {
     const result = response?.profileObj;
     const token = response?.tokenId;
 
@@ -66,7 +65,25 @@ function Auth(props) {
     }
   };
 
-  const googleFailure = (dd) => {
+  React.useEffect(() => {
+    window.gapi.load("client:auth2", () => {
+      window.gapi.client
+        .init({
+          clientId:
+            "716075642837-kergfh0638hu8iq5dimpgnlc1f08s61r.apps.googleusercontent.com",
+          scope: "email",
+          pluginName: "GoogleLogin",
+        })
+        .then(() => {
+          const auth = window.gapi.auth2.getAuthInstance();
+          auth.isSignedIn.get();
+          // this.auth = window.gapi.auth2.getAuthInstance();
+          // this.setState({ isSignedIn: this.auth.isSignedIn.get() });
+        });
+    });
+  }, []);
+
+  const googleFailure = () => {
     console.log("Google Sign In was Unsuccessful. Try Again Later");
   };
 
@@ -130,7 +147,7 @@ function Auth(props) {
           </Button>
 
           <GoogleLogin
-            clientId="346266285649-k7uis0i0d7g4o2m742am6mplo3iidouc.apps.googleusercontent.com"
+            clientId="346266285649-cp45qf5d9jflfeb123gt9d9km57huf5j.apps.googleusercontent.com"
             render={(renderProps) => (
               <Button
                 className="auth__googlebtn"
