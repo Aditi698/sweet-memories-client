@@ -70,7 +70,7 @@ function Auth(props) {
       window.gapi.client
         .init({
           clientId:
-            "716075642837-kergfh0638hu8iq5dimpgnlc1f08s61r.apps.googleusercontent.com",
+            "346266285649-cp45qf5d9jflfeb123gt9d9km57huf5j.apps.googleusercontent.com",
           scope: "email",
           pluginName: "GoogleLogin",
         })
