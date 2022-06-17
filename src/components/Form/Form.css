@@ -1,34 +1,41 @@
 .form__heading {
-    margin-bottom: 5px;
-    color: coral;
+  margin-bottom: 5px;
+  color: coral;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .form__paper {
-    padding: 1rem!important;
+  padding: 1rem !important;
 }
 
 .MuiInputBase-root {
-    width: 97%;
-    margin: 10px 0!important;
+  width: 97%;
+  margin: 10px 0 !important;
 }
 
 .form__fileInput {
-    margin: 10px 0!important;
+  margin: 10px 0 !important;
 }
 
+.form__img {
+  width: 60%;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  margin: 0 auto;
+}
 
 /* .MuiButtonBase-root {
     width: 97%;
 } */
 
 .MuiButton-root {
-    width: 100%!important;
-    margin: 7px 0!important;
+  width: 100% !important;
+  margin: 7px 0 !important;
 }

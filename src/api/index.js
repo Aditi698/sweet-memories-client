@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const localUrl = "http://localhost:5000";
+const serverUrl = "https://sweet-memories-node-v1.herokuapp.com";
 const API = axios.create({
-  baseURL: "https://sweet-memories-node-v1.herokuapp.com",
+  baseURL: serverUrl,
 });
 
 API.interceptors.request.use((req) => {

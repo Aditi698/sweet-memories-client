@@ -8,17 +8,37 @@ import {
   CardMedia,
   Button,
   Typography,
+  Menu,
+  MenuItem,
+  IconButton,
 } from "@material-ui/core";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
+import { MoreVert } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 
 function Post({ post, setCurrentId }) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = JSON.parse(localStorage.getItem("profile"));
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (setId, showDetails) => {
+    setAnchorEl(null);
+
+    if (setId) {
+      setCurrentId(post._id);
+    }
+    if (showDetails) {
+      history.push(`/post-details/${post._id}`);
+    }
+  };
 
   const Likes = () => {
     if (post.likes.length > 0) {
@@ -63,18 +83,31 @@ function Post({ post, setCurrentId }) {
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      {(user?.result?.googleId === post?.creator ||
-        user?.result?._id === post?.creator) && (
-        <div className="card__overlay2">
-          <Button
-            style={{ color: "white" }}
-            size="small"
-            onClick={() => setCurrentId(post._id)}
-          >
-            <MoreHorizIcon fontSize="default" />
-          </Button>
-        </div>
-      )}
+      <div className="card__overlay2">
+        <IconButton
+          aria-label="more"
+          id="long-button"
+          aria-haspopup="true"
+          size="small"
+          onClick={handleClick}
+        >
+          <MoreVert color="primary" />
+        </IconButton>
+        <Menu
+          id="long-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClick={() => handleClose(false, false)}
+        >
+          <MenuItem onClick={() => handleClose(false, true)}>
+            Show Details
+          </MenuItem>
+          {(user?.result?.googleId === post?.creator ||
+            user?.result?._id === post?.creator) && (
+            <MenuItem onClick={() => handleClose(true, false)}>Edit</MenuItem>
+          )}
+        </Menu>
+      </div>
       <div className="card__details">
         <Typography variant="body2" color="textSecondary">
           {post.tags.map((tag) => `#${tag} `)}

@@ -1,12 +1,11 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  font-family: "Lora", serif !important;
 }
 
-
-
 @media screen and (max-width: 600px) {
-    .app_postcontainer {
-      flex-direction: column-reverse;
-    }
+  .app_postcontainer {
+    flex-direction: column-reverse;
+  }
 }

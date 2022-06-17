@@ -1,15 +1,13 @@
 import React from "react";
 import "./Posts.css";
 import { useSelector } from "react-redux";
-import { Grid, CircularProgress } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Post from "./Post/Post";
 
 function Posts({ setCurrentId }) {
   const posts = useSelector((state) => state.posts);
 
-  return !posts.length ? (
-    <CircularProgress />
-  ) : (
+  return (
     <Grid
       className="posts__container"
       container

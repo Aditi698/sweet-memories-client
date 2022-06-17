@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Paper, Typography } from "@material-ui/core";
-import FileBase from "react-file-base64";
 import "./Form.css";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
 
 function Form({ currentId, setCurrentId }) {
+  const inputFileRef = React.useRef();
   const [postData, setPostData] = useState({
     title: "",
     message: "",
@@ -25,9 +25,48 @@ function Form({ currentId, setCurrentId }) {
     }
   }, [post]);
 
+  const getBase64 = (file) => {
+    return new Promise((resolve) => {
+      let baseURL = "";
+      // Make new FileReader
+      let reader = new FileReader();
+      // Convert the file to base64 text
+      reader.readAsDataURL(file);
+
+      // on reader load somthing...
+      reader.onload = () => {
+        // Make a fileInfo Object
+        baseURL = reader.result;
+        resolve(baseURL);
+      };
+    });
+  };
+
+  const handleFileInputChange = (e) => {
+    let { selectedFile } = postData;
+
+    selectedFile = e.target.files[0];
+
+    getBase64(selectedFile)
+      .then((result) => {
+        selectedFile["base64"] = result;
+        setPostData((prevState) => ({
+          ...prevState,
+          selectedFile: result,
+        }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const onBtnClick = () => {
+    /*Collecting node-element and performing click*/
+    inputFileRef.current.click();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(currentId);
     if (currentId) {
       dispatch(
         updatePost(currentId, { ...postData, name: user?.result?.name })
@@ -92,19 +131,36 @@ function Form({ currentId, setCurrentId }) {
             setPostData({ ...postData, tags: e.target.value.split(",") })
           }
         />
-        <FileBase
+        {/* <FileBase
           type="file"
           multiple={false}
           onDone={({ base64 }) =>
             setPostData({ ...postData, selectedFile: base64 })
           }
+        /> */}
+        <input
+          type="file"
+          ref={inputFileRef}
+          name="file"
+          onChange={handleFileInputChange}
+          style={{ display: "none" }}
         />
+        <Button variant="contained" size="small" onClick={onBtnClick}>
+          Upload Image
+        </Button>
+        {postData.selectedFile && (
+          <img
+            className="form__img"
+            src={postData.selectedFile}
+            alt="uploaded file"
+          />
+        )}
         <Button
           type="submit"
           className="form__btnSubmit"
           variant="contained"
           color="primary"
-          size="large"
+          size="small"
         >
           Submit
         </Button>

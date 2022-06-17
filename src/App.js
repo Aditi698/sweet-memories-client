@@ -5,6 +5,7 @@ import { Container } from "@material-ui/core";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Auth from "./components/Auth/Auth";
+import PostDetails from "./components/Posts/PostDetails/PostDetails";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/auth" exact component={Auth} />
+            <Route path="/post-details/:id" exact component={PostDetails} />
           </Switch>
         </Container>
       </div>
